@@ -16,15 +16,7 @@ body {
   font-size: 14px;
   line-height: 1.5;
   color: #24292e;
-  background-color: #fff;
-}
-
-.app {
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  background-color: #0E4A84;
 }
 
 input.error {
