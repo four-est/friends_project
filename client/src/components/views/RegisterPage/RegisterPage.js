@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Checkbox, Button } from 'antd';
+import { Form, Input, Button, Radio } from 'antd';
 import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
 
@@ -14,8 +14,7 @@ function RegisterPage(props) {
     const [PasswordConfirm, setPasswordConfirm] = useState('')
     const [Name, setName] = useState('')
     const [Birth, setBirth] = useState('')
-    const [Number, setNumber] = useState('')
-    const [Favorite, setFavorite] = useState([])
+    const [Sex, setSex] = useState(1)
 
     const idChangeHandler = (event) => {
         setID(event.target.value)
@@ -36,29 +35,21 @@ function RegisterPage(props) {
     const birthChangeHandler = (event) => {
         setBirth(event.target.value)
     }
-    
-    const numberChangeHandler = (event) => {
-        setNumber(event.target.value)
-    }
-    
-    const favoriteChangeHandler = (checkedValues) => {
-        setFavorite(checkedValues)
-        console.log('is checked: ', checkedValues)
+
+    const sexChangeHandler = (event) => {
+        console.log('radio checked', event.target.value)
+        setSex(event.target.value)
     }
 
     const submitHandler = (event) => {
         event.preventDefault();
         
-        if ( !ID | !Password | !PasswordConfirm | !Name | !Birth | !Number | !Favorite) {
+        if ( !ID | !Password | !PasswordConfirm | !Name | !Birth | !Sex) {
             return alert('모든 내용을 작성해주세요.')
         } else if (Password !== PasswordConfirm) {
             return alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.')
-        } else if (Favorite.length === 0) {
-            return alert('관심 선물을 1개 이상 선택해주세요.')
-        } else if (Birth.length !== 6) {
-            return alert('생일은 6자리로 입력해주세요. (ex.980101')
-        } else if (Number.length !== 11) {
-            return alert('전화번호는 숫자만 입력해주세요.')
+        } else if (Birth.length !== 8) {
+            return alert('생일은 8자리로 입력해주세요. (ex.19980101')
         } else if (Password.length < 4) {
             console.log(Password.length)
             return alert('비밀번호는 4자리 이상 입력하세요.')
@@ -69,8 +60,7 @@ function RegisterPage(props) {
             password: Password,
             name: Name,
             birth: Birth,
-            number: Number,
-            favorite: Favorite
+            sex: Sex
         }
 
         console.log('body', body)
@@ -95,7 +85,7 @@ function RegisterPage(props) {
     return (
         <div style={{ height: '100%', backgroundColor: '#fff' }}>
             <div style={{ width: '100%', height: '100px', backgroundColor: '#0E4A84' }}>
-                <p style={{ fontSize: '20px', color: '#fff', textAlign: 'center', paddingTop: '30px' }}>FRIEND'S</p>
+                <p style={{ fontSize: '20px', color: '#fff', textAlign: 'center', paddingTop: '30px', margin: 0 }}>FRIEND'S</p>
             </div>
             <div className="registerContainer" style={{ width: '90%', margin: '3rem auto' }}>
                 <div>
@@ -113,11 +103,11 @@ function RegisterPage(props) {
                         <p style={{fontSize: '20px' }}>개인정보 입력</p>
                         <Input placeholder='이름을 입력해주세요' onChange={nameChangeHandler} value={Name} />
                         <Input placeholder='생년월일을 입력해주세요(6자리)' onChange={birthChangeHandler} value={Birth} type='number' />
-                    </div>
-
-                    <div>
-                        <p style={{ fontSize: '20px' }}>휴대전화</p>
-                        <Input placeholder='전화번호를 입력해주세요' onChange={numberChangeHandler} value={Number} type='number' />
+                        <p style={{ fontSize: '15px', margin: 0 }}>성별을 선택하세요</p>
+                        <Radio.Group onChange={sexChangeHandler} value={Sex}>
+                            <Radio value={1}>여성</Radio>
+                            <Radio value={2}>남성</Radio>
+                        </Radio.Group>
                     </div>
                     <a href='/'>
                         <Button
@@ -128,7 +118,8 @@ function RegisterPage(props) {
                                 background: '#0E4A84',
                                 border: '0',
                                 color: '#fff',
-                                marginTop: '60px'
+                                marginTop: '60px',
+                                marginBottom: '60px'
                             }}
                                 htmlType='submit'>
                                 회원가입

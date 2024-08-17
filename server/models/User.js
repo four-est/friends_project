@@ -9,25 +9,23 @@ const userSchema = mongoose.Schema({
         type:String,
         maxlength:50
     },
-    email: {
-        type:String,
-        trim:true,
+    ID: {
+        type: String,
+        trim: true,
         unique: 1 
     },
     password: {
         type: String,
-        minglength: 5
+        minlength: 4
     },
-    lastname: {
-        type:String,
-        maxlength: 50
+    sex: {
+        type: String
     },
-    role : {
-        type:Number,
-        default: 0 
+    birth: {
+        type: Number,
+        length: 8
     },
-    image: String,
-    token : {
+    token: {
         type: String,
     },
     tokenExp :{
