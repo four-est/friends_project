@@ -84,9 +84,6 @@ function RegisterPage(props) {
 
     return (
         <div style={{ height: '100%', backgroundColor: '#fff' }}>
-            <div style={{ width: '100%', height: '100px', backgroundColor: '#0E4A84' }}>
-                <p style={{ fontSize: '20px', color: '#fff', textAlign: 'center', paddingTop: '30px', margin: 0 }}>FRIEND'S</p>
-            </div>
             <div className="registerContainer" style={{ width: '90%', margin: '3rem auto' }}>
                 <div>
                     <p className='registerContainer-p' style={{ fontSize: '32px', letterSpacing: '5px', textAlign: 'center' }}>JOIN</p>
