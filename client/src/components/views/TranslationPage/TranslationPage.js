@@ -1,30 +1,31 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 
 import BackgroundImg from './img/BackgroundImg.png'
 import MicIcon from './img/MicIcon.png'
 import Axios from 'axios';
 
-function TranslationPage() {
+function TranslationPage(props) {
 
     const [IsRec, setIsRec] = useState(true)
-    // const [Stream, setStream] = useState()
-    // const [IsAnalyser, setIsAnalyser] = useState()
     const [Media, setMedia] = useState()
-    // const [Source, setSource] = useState()
-    const [RecordedChunks, setRecordedChunks] = useState([])
-    // const [audioURL, setAudioURL] = useState('');
+    const [Stream, Setstream] = useState()
+    const RecordedChunksRef = useRef([]);
+    
 
     const onRecHandler = () => {
         if (IsRec) {
             console.log('recording')
             navigator.mediaDevices.getUserMedia({ audio: true }).then((Stream) => {
-                console.log('Stream', Stream)
+                // console.log('Stream', Stream)
                 const Media = new MediaRecorder(Stream);
                 setMedia(Media)
+                Setstream(Stream)
 
-                Media.ondataavailable = event => {
-                    console.log(event.data)
-                    setRecordedChunks(prev => [...prev, event.data]);
+                Media.ondataavailable = (event) => {
+                    if (event.data) {
+                        // console.log('data', event.data)
+                        RecordedChunksRef.current.push(event.data)
+                    }
                 };
 
                 Media.start();
@@ -36,42 +37,43 @@ function TranslationPage() {
     }
 
     const offRecHandler = () => {
-        if (!IsRec) {
+        if (IsRec == false) {
             console.log('stop recoding')
             Media.stop();
+
             Media.onstop = () => {
-                let aElm = document.createElement('a');
-                aElm.href = window.URL.createObjectURL(new Blob(RecordedChunks, {type: "audio/mp4"}));
-                aElm.download = 'recording.mp4';
-                aElm.click();
-            };
+                if (RecordedChunksRef.current.length > 0) {
+                    console.log('RecordedChunksRef-off', RecordedChunksRef.current[0])
+                    const RecChunks = RecordedChunksRef.current[0]
+                    let aElm = document.createElement('a');
+                    aElm.href = window.URL.createObjectURL(new Blob([RecChunks], {type: "audio/wav"}));
+                    aElm.download = 'recording.wav';
+                    aElm.click();
+                    console.log('Recording stopped, Blob created');
+
+                    // upload file
+
+                    if (RecChunks !== undefined) {
+                        console.log('RecChunks', RecChunks.size)
+                        let formData = new FormData();
+
+                        const config = {
+                            header: {
+                                'Content-Type': 'multipart/form-data',
+                            }
+                        }
+
+                        formData.append("file", RecChunks)
+
+                        // Axios.post('/api/upload/audio', { params: { 'fileSize': RecChunks.size, 'fileType': RecChunks.type }})
+                        Axios.post('/api/upload/audio', formData, config)
+                            .then(response => {
+                                console.log('response', response)
+                            })
+                    }
+                }
+            }
         }
-
-        // let aElm = document.createElement('a');
-        // aElm.href = window.URL.createObjectURL(new Blob(RecordedChunks, {type: "audio/wav"}));
-        // aElm.download = 'recording.wav';
-        // aElm.click();
-
-        // upload file
-        let formdata = new FormData();
-        formdata.append("fname", "test.wav");
-        formdata.append("data", RecordedChunks);
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/api/upload/audio", false);
-        xhr.send(formdata);
-
-        // const config = {
-        //     header: {
-        //         'Content-Type': 'audio/mpeg'
-        //     }
-        // }
-
-        // console.log('formdata', formdata)
-
-        // Axios.post('/api/upload/audio', formdata, config).then(response => {
-        //     console.log('res', response)
-        // })
     }
 
   return (
@@ -86,11 +88,6 @@ function TranslationPage() {
               <button onClick={IsRec ? onRecHandler : offRecHandler} style={{ width: '100%', height: '100px', backgroundColor: '#0E4A84'}}>
                   <img src={MicIcon} style={{ width: '50px' }}/>
               </button>
-              {/* {audioURL && (
-                <a href={audioURL} download="recording.wav">
-                    Download Recording
-                </a>
-            )} */}
           </div>
       </div>
   )
