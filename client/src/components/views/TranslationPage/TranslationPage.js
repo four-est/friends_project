@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 import BackgroundImg from './img/BackgroundImg.png'
 import MicIcon from './img/MicIcon.png'
@@ -12,7 +12,7 @@ function TranslationPage(props) {
     const RecordedChunksRef = useRef([]);
 
     
-    console.log(props)
+    // console.log(props)
     
 
     const onRecHandler = () => {
@@ -45,7 +45,7 @@ function TranslationPage(props) {
             Media.stop();
 
             Media.onstop = () => {
-                if (RecordedChunksRef.current.length > 0) {
+                if (RecordedChunksRef.current.length > 0 && props) {
                     console.log('RecordedChunksRef-off', RecordedChunksRef.current[0])
                     const RecChunks = RecordedChunksRef.current[0]
                     let aElm = document.createElement('a');
@@ -57,7 +57,7 @@ function TranslationPage(props) {
                     // upload file
 
                     if (RecChunks !== undefined) {
-                        console.log('RecChunks', RecChunks.size)
+                        // console.log('RecChunks', RecChunks.size)
                         let formData = new FormData();
 
                         const config = {
@@ -69,9 +69,21 @@ function TranslationPage(props) {
                         formData.append("file", RecChunks)
 
                         // Axios.post('/api/upload/audio', { params: { 'fileSize': RecChunks.size, 'fileType': RecChunks.type }})
-                        Axios.post('/api/upload/audio', formData, config)
+                        Axios.post('/api/upload/audio', formData, { params: { 'user': props.user.userData._id } }, config)
                             .then(response => {
-                                console.log('response', response)
+                                if (response.status == 200) {                                
+                                    // console.log('response', response)
+                                    props.history.push({
+                                        pathname: '/loading',
+                                        state: {
+                                            userId: response.data.userId,
+                                            filePath: response.data.filePath,
+                                            fileName: response.data.fileName,
+                                            fileSize: response.data.fileSize,
+                                            fileData: response.data.fileData
+                                        },
+                                    })
+                                }
                             })
                     }
                 }

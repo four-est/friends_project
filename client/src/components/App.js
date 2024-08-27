@@ -8,6 +8,8 @@ import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import LandingPage from "./views/LandingPage/LandingPage.js";
 
 import TranslationPage from './views/TranslationPage/TranslationPage.js';
+import LoadingPage from './views/LoadingPage/LoadingPage.js';
+import ResultPage from './views/ResultPage/ResultPage.js';
 
 import RecommendPage from './views/RecommendPage/RecommendPage.js';
 
@@ -29,6 +31,8 @@ function App() {
           <Route exact path="/login" component={Auth(LoginPage, null)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/translation" component={Auth(TranslationPage, true)} />
+          <Route exact path="/loading" component={Auth(LoadingPage, true)} />
+          <Route exact path="/result" component={Auth(ResultPage, true)} />
           <Route exact path="/recommend" component={Auth(RecommendPage, true)} />
         </Switch>
       </div>
