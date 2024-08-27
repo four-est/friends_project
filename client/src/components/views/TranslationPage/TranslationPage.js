@@ -10,6 +10,9 @@ function TranslationPage(props) {
     const [Media, setMedia] = useState()
     const [Stream, Setstream] = useState()
     const RecordedChunksRef = useRef([]);
+
+    
+    console.log(props)
     
 
     const onRecHandler = () => {
