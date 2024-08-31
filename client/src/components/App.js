@@ -12,6 +12,8 @@ import LoadingPage from './views/LoadingPage/LoadingPage.js';
 import ResultPage from './views/ResultPage/ResultPage.js';
 
 import RecommendPage from './views/RecommendPage/RecommendPage.js';
+import BookmarkPage from './views/BookmarkPage/BookmarkPage.js';
+import AIRecommendPage from './views/AIRecommendPage/AIRecommendPage.js';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -34,6 +36,8 @@ function App() {
           <Route exact path="/loading" component={Auth(LoadingPage, true)} />
           <Route exact path="/result" component={Auth(ResultPage, true)} />
           <Route exact path="/recommend" component={Auth(RecommendPage, true)} />
+          <Route exact path="/recommend/bookmark/:UserId" component={Auth(BookmarkPage, true)} />
+          <Route exact path="/recommend/ai/:UserId" component={Auth(AIRecommendPage, true)} />
         </Switch>
       </div>
     </Suspense>
