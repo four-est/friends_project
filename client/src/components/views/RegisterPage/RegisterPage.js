@@ -66,6 +66,7 @@ function RegisterPage(props) {
         console.log('body', body)
 
         dispatch(registerUser(body)).then(response => {
+            console.log(response.payload)
           if(response.payload.success) {
             alert('회원가입이 완료되었습니다.')
             props

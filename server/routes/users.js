@@ -33,11 +33,12 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-    User.findOne({ email: req.body.email }, (err, user) => {
+    // console.log(req.body)
+    User.findOne({ ID: req.body.ID }, (err, user) => {
         if (!user)
             return res.json({
                 loginSuccess: false,
-                message: "Auth failed, email not found"
+                message: "Auth failed, ID not found"
             });
 
         user.comparePassword(req.body.password, (err, isMatch) => {
