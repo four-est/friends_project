@@ -29,6 +29,10 @@ function ResultPage(props) {
     Speaker(Text)
   }
 
+  const BookmarkButtonHandler = () => {
+    return alert('해당 문장을 저장했어요!')
+  }
+
 
   return (
     <div style={{ height: '100%' }}>
@@ -38,7 +42,7 @@ function ResultPage(props) {
             <img src={SoundIcon} style={{ width: '35px', height: '35px' }}/>
           </button>
           <a href={`/recommend/bookmark/${UserId}`}>
-            <button className='IconBox'>
+            <button className='IconBox' onClick={BookmarkButtonHandler}>
               <img src={BookmarkIcon} style={{ width: '35px' }}/>
             </button>
           </a>
