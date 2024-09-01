@@ -2,6 +2,8 @@ import React from 'react'
 import Axios from 'axios'
 import { useHistory } from 'react-router-dom';
 
+import './LoadingPage.css'
+
 import BackgroundImg from './img/BackgroundImg.png'
 import MicIcon from './img/MicIcon.png'
 
@@ -39,8 +41,8 @@ function LoadingPage(props) {
                 </div>
             </div>
             <div style={{ marginTop: '303px' }}>
-                <div style={{ width: '100%', height: '100px', backgroundColor: '#0E4A84'}}>
-                    <img src={MicIcon} style={{ width: '50px', color: '#c4c4c4' }}/>
+                <div style={{ width: '100%', height: '100px', backgroundColor: '#0E4A84', display: 'inline-flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <img className='IconColor' src={MicIcon} style={{ width: '50px' }}/>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import './ResultPage.css'
+import Speaker from './Speaker.js'
 
 import SoundIcon from './img/SoundIcon.png'
 import BookmarkIcon from './img/BookmarkIcon.png'
@@ -10,6 +11,7 @@ import MicIcon from './img/MicIcon.png'
 function ResultPage(props) {
 
   const [UserId, setUserId] = useState('')
+  const [Text, setText] = useState('안녕하세요')
 
   useEffect(() => {
     console.log(props.user)
@@ -17,23 +19,32 @@ function ResultPage(props) {
       setUserId(props.user.userData._id)
     }
   }, [props.user.userData])
-  
+
+  //음성 변환 목소리 preload
+  useEffect(() => {
+    window.speechSynthesis.getVoices();
+  }, []);
+
+  const SpeakerButtonHandler = () => {
+    Speaker(Text)
+  }
+
 
   return (
     <div style={{ height: '100%' }}>
       <div style={{ width: '90%', margin: '0px auto' }}>
         <div style={{ margin: '20px 0px 30px 0px', display: 'inline-flex', width: '100%', height: '60px', justifyContent: 'space-between' }}>
-          <div className='IconBox'>
+          <button className='IconBox' onClick={SpeakerButtonHandler}>
             <img src={SoundIcon} style={{ width: '35px', height: '35px' }}/>
-          </div>
+          </button>
           <a href={`/recommend/bookmark/${UserId}`}>
-            <div className='IconBox'>
+            <button className='IconBox'>
               <img src={BookmarkIcon} style={{ width: '35px' }}/>
-            </div>
+            </button>
           </a>
         </div>
         <div className='ResultBox'>
-          <p className='ResultText'>안녕하세요</p>
+          <p className='ResultText'>{Text}</p>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <a href='/translation'>

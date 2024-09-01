@@ -95,7 +95,7 @@ function TranslationPage(props) {
       <div style={{ height: '100%' }}>
           <div style={{ width: '90%', margin: '0px auto' }}>
               <div style={{ width: '100%', paddingTop: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center', alignContent: 'center', flexDirection: 'column', flexWrap: 'wrap' }}>
-                  <img src={BackgroundImg} style={{ width: '45px' }}/>
+                  <img src={BackgroundImg} style={{ width: '45px', color: '#5A5A5A' }}/>
                   <p>음성 버튼을 눌러 말해주세요</p>
               </div>
           </div>
